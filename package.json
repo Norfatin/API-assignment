@@ -1,0 +1,29 @@
+{
+  "name": "api-assignment",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Norfatin/API-assignment.git"
+  },
+  "author": "norfatinismat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Norfatin/API-assignment/issues"
+  },
+  "homepage": "https://github.com/Norfatin/API-assignment#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^8.4.0",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.3.5"
+  },
+  "devDependencies": {
+    "nodeman": "^1.1.2",
+    "sequelize-cli": "^6.2.0"
+  }
+}
