@@ -1,0 +1,93 @@
+@baseUrl = http://localhost:3000/
+
+
+POST {{baseUrl}}users/register
+content-type: application/json
+
+{
+    "email": "cadbury@example.com",
+    "password": "test_users",
+    "firstName": "Oreo",
+    "lastName": "Biscuit", 
+    "age": "57",
+    "hobby": "Chilling with cheesecake",
+    "country": "United States"
+}
+
+###
+
+POST {{baseUrl}}users/login
+content-type: application/json
+
+{
+    "email": "oreo@example.com",
+    "password": "test_users"
+}
+
+
+###
+
+GET {{baseUrl}}users/profile
+content-type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Zjg5NGM3ZDhkMzk5MjU3MTg0NWYyNTQiLCJpYXQiOjE2MDI4MzYxOTN9.zlAvad_OdjDwXEc55i--stylXA-OYjTLJm48lrm8mhk
+
+{
+
+}
+
+###
+
+POST {{baseUrl}}users/profile/logout
+content-type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Zjg5NGM3ZDhkMzk5MjU3MTg0NWYyNTQiLCJpYXQiOjE2MDI4MzYxOTN9.zlAvad_OdjDwXEc55i--stylXA-OYjTLJm48lrm8mhk
+
+{
+
+}
+
+###
+
+POST {{baseUrl}}users/profile/logoutall
+content-type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Zjg5NGM3ZDhkMzk5MjU3MTg0NWYyNTQiLCJpYXQiOjE2MDI4MzYxOTN9.zlAvad_OdjDwXEc55i--stylXA-OYjTLJm48lrm8mhk
+
+{
+
+}
+
+###
+
+POST {{baseUrl}}users/register
+content-type: application/json
+
+{
+    "email": "mars@example.com",
+    "password": "test_users",
+    "firstName": "Mars",
+    "lastName": "Planet", 
+    "age": "6",
+    "hobby": "sunbathing",
+    "country": "Bulgaria",
+    "blockedEmails": 
+}
+
+
+###
+
+POST {{baseUrl}}users/login
+content-type: application/json
+
+{
+    "email": "oreo1@example.com",
+    "password": "test_users"
+}
+
+
+###
+
+GET {{baseUrl}}users/profile
+content-type: application/json
+
+{
+
+}

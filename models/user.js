@@ -1,28 +1,94 @@
-"use strict";
-const { Model } = require("sequelize");
-module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
-  }
-  User.init(
-    {
-      email: { type: DataTypes.STRING, unique: true },
-      password: DataTypes.STRING,
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
-      age: DataTypes.NUMBER,
-    },
-    {
-      sequelize,
-      modelName: "User",
-    }
-  );
-  return User;
+const mongoose = require('mongoose');
+const validator = require('validator');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+const userSchema = mongoose.Schema({
+	email: {
+		type: String,
+		required: true,
+		unique: true,
+		lowercase: true,
+		validate: (value) => {
+			if (!validator.isEmail(value)) {
+				throw new Error({ error: 'Invalid Email address' });
+			}
+		},
+	},
+	password: {
+		type: String,
+		required: true,
+		minLength: 6,
+	},
+	firstName: {
+		type: String,
+		required: true,
+		trim: true,
+	},
+	lastName: {
+		type: String,
+		required: true,
+		trim: true,
+	},
+	age: {
+		type: Number,
+		required: true,
+	},
+	hobby: {
+		type: String,
+	},
+	country: {
+		type: String,
+		required: true,
+	},
+	tokens: [
+		{
+			token: {
+				type: String,
+				required: true,
+			},
+		},
+	],
+	blockedEmails: [
+		{
+			blockedEmail: {
+				type: String,
+			},
+		},
+	],
+});
+
+userSchema.pre('save', async function (next) {
+	// Hash the password before saving the user model
+	const user = this;
+	if (user.isModified('password')) {
+		user.password = await bcrypt.hash(user.password, 10);
+	}
+	next();
+});
+
+userSchema.methods.generateAuthToken = async function () {
+	// Generate an auth token for the user
+	const user = this;
+	const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY);
+	user.tokens = user.tokens.concat({ token });
+	await user.save();
+	return token;
 };
+
+userSchema.statics.findByCredentials = async (email, password) => {
+	// Search for a user by email and password.
+	const user = await User.findOne({ email });
+	if (!user) {
+		throw new Error({ error: 'Invalid login credentials' });
+	}
+	const isPasswordMatch = await bcrypt.compare(password, user.password);
+	if (!isPasswordMatch) {
+		throw new Error({ error: 'Incorrect password' });
+	}
+	return user;
+};
+
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;
